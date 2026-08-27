@@ -16,9 +16,9 @@ Version      : 1.0
     }
 
     .hero-content h1 {
-        line-height: 60px;
+        line-height: 48px;
         margin: 20px 0px;
-        font-size: 50px;
+        font-size: 36px;
 
     }
 
@@ -98,8 +98,8 @@ Version      : 1.0
     }
 
     .hero-content h1 {
-        line-height: 60px;
-        font-size: 50px;
+        line-height: 42px;
+        font-size: 32px;
         padding: 20px 0px;
     }
 
@@ -337,8 +337,8 @@ Version      : 1.0
     }
 
     .hero-content h1 {
-        line-height: 50px;
-        font-size: 40px;
+        line-height: 38px;
+        font-size: 28px;
         padding: 20px 0px;
     }
 

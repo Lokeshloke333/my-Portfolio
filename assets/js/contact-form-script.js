@@ -9,40 +9,48 @@
             formError();
             submitMSG(false, "Did you fill in the form properly?");
         } else {
-            // everything looks good!
+            // everything looks good! Let's submit via AJAX
             event.preventDefault();
             submitForm();
         }
     });
 
-
     function submitForm(){
         // Initiate Variables With Form Content
         var name = $("#name").val();
         var email = $("#email").val();
-        var phone_number = $("#phone_number").val();
-        var subject = $("#subject").val();
         var message = $("#message").val();
-
 
         $.ajax({
             type: "POST",
-            url: "assets/php/form-process.php",
-            data: "name=" + name + "&email=" + email + "&phone_number=" + phone_number + "&subject=" + subject + "&message=" + message,
-            success : function(text){
-                if (text == "success"){
+            url: "https://formsubmit.co/ajax/lokeshvanumu61@gmail.com",
+            dataType: 'json',
+            accepts: 'application/json',
+            data: {
+                name: name,
+                email: email,
+                message: message,
+                _captcha: false,
+                _subject: "New submission from Portfolio Contact Form"
+            },
+            success : function(data){
+                if (data.success == "true" || data.success === true){
                     formSuccess();
                 } else {
                     formError();
-                    submitMSG(false,text);
+                    submitMSG(false, "Oops! Something went wrong.");
                 }
+            },
+            error: function() {
+                formError();
+                submitMSG(false, "Oops! Something went wrong.");
             }
         });
     }
 
     function formSuccess(){
         $("#contactForm")[0].reset();
-        submitMSG(true, "Message Submitted!")
+        submitMSG(true, "Message Submitted successfully!")
     }
 
     function formError(){
@@ -52,10 +60,11 @@
     }
 
     function submitMSG(valid, msg){
+        var msgClasses;
         if(valid){
-            var msgClasses = "h4 text-left tada animated text-success";
+            msgClasses = "h4 text-left tada animated text-success mt-3";
         } else {
-            var msgClasses = "h4 text-left text-danger";
+            msgClasses = "h4 text-left text-danger mt-3";
         }
         $("#msgSubmit").removeClass().addClass(msgClasses).text(msg);
     }

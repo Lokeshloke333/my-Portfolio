@@ -327,7 +327,66 @@ Version      : 1.0
                 });
             });
 
-        });
+    });
+
+    // BEHANCE PREVIEW MODAL LOGIC
+    const $modal = $('#behanceModal');
+    const $iframe = $('#behanceModalIframe');
+    const $title = $('#behanceModalTitle');
+    const $externalLink = $('#behanceModalExternalLink');
+    const $fallbackLink = $('#behanceModalFallbackBtn');
+    const $fallback = $('#behanceModalFallback');
+
+    $('.behance-preview-link').on('click', function(e) {
+        e.preventDefault();
+        
+        const behanceUrl = $(this).attr('href');
+        const projectId = $(this).data('project-id');
+        const projectTitle = $(this).data('project-title');
+        
+        // Setup Modal content
+        $title.text(projectTitle);
+        $externalLink.attr('href', behanceUrl);
+        $fallbackLink.attr('href', behanceUrl);
+        
+        // Hide fallback initially
+        $fallback.hide();
+        $iframe.show();
+        
+        // Set iframe source
+        if (behanceUrl) {
+            // Use Behance's iframe parameter to load the full project securely
+            const embedUrl = behanceUrl.includes('?') ? behanceUrl + '&iframe=1' : behanceUrl + '?iframe=1';
+            $iframe.attr('src', embedUrl);
+        } else {
+            // If no project URL, trigger fallback
+            $iframe.hide();
+            $fallback.show();
+        }
+        
+        // Open Modal
+        $('body').addClass('modal-open');
+        $modal.addClass('active');
+    });
+
+    function closeModal() {
+        $('body').removeClass('modal-open');
+        $modal.removeClass('active');
+        // Clear iframe to stop video/audio if playing
+        setTimeout(function() {
+            $iframe.attr('src', '');
+        }, 300);
+    }
+
+    $('#behanceModalClose').on('click', closeModal);
+    
+    $('.behance-modal-backdrop').on('click', closeModal);
+
+    $(document).keyup(function(e) {
+        if (e.key === "Escape" && $modal.hasClass('active')) {
+            closeModal();
+        }
+    });
 
 
 
